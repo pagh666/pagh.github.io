@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>亡妻回忆录 | 爱意永不褪色</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'Noto Serif SC', serif;
+            /* 温柔怀旧色调背景 */
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 99%, #dcdcdc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 淡淡的旧照片纹理叠加 */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23000000' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .container {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            max-width: 85%;
+            position: relative;
+            border: 1px solid #f0f0f0;
+        }
+
+        /* 怀旧相框装饰 */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border: 1px solid #e0e0e0;
+            border-radius: 18px;
+            z-index: -1;
+            opacity: 0.7;
+        }
+
+        .title {
+            font-size: 2.2rem;
+            color: #4a4a4a;
+            margin-bottom: 0.8rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+            font-weight: 500;
+            letter-spacing: 0.1em;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: #888;
+            margin-bottom: 2.5rem;
+            font-style: italic;
+            letter-spacing: 0.05em;
+        }
+
+        .message-container {
+            min-height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 1.5rem 0;
+            position: relative;
+            padding: 1rem;
+        }
+
+        .message {
+            font-size: 1.8rem;
+            color: #333;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            transform: translateY(15px) scale(0.98);
+            transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: absolute;
+            line-height: 1.6;
+            padding: 0 1rem;
+        }
+
+        .message.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* 替换爱心为更温柔的花瓣效果 */
+        .petals {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .petal {
+            position: absolute;
+            color: #d4b6b6;
+            font-size: 16px;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0;
+            transform-origin: center;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.7;
+            }
+            85% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(720deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .controls {
+            margin-top: 2.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        button {
+            background: #c2a6a6;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 0.05em;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+
+        button:hover {
+            background: #a88c8c;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .footer {
+            margin-top: 2.5rem;
+            color: #999;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            line-height: 1.8;
+        }
+
+        /* 日期标记 */
+        .date-mark {
+            position: absolute;
+            bottom: -30px;
+            right: 20px;
+            color: #bbb;
+            font-size: 0.8rem;
+            font-style: italic;
+            letter-spacing: 0.1em;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 1.8rem;
+            }
+            .message {
+                font-size: 1.5rem;
+            }
+            .container {
+                padding: 2rem 1.5rem;
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">💌 亡妻回忆录</h1>
+        <p class="subtitle">那些未曾说尽的爱意，永远留在心底</p>
+
+        <div class="message-container" id="messageContainer">
+            <!-- 消息会动态生成在这里 -->
+        </div>
+
+        <div class="controls">
+            <button id="prevBtn">上一段回忆</button>
+            <button id="playBtn">播放/暂停</button>
+            <button id="nextBtn">下一段回忆</button>
+        </div>
+
+        <div class="footer">
+            爱是永恒的回忆<br>
+            你未曾离开，只是换了一种方式陪伴
+        </div>
+
+        <div class="date-mark">永远怀念</div>
+    </div>
+
+    <div class="petals" id="petalsContainer"></div>
+
+    <script>
+        // 调整后的回忆式文案（保留原意，增加怀旧感）
+        const messages = [
+            "还记得吗？我们初见的那天",
+            "你笑着说，完蛋了，我好像心动了",
+            "后来你成了我的宝宝，我一生的牵挂",
+            "曾经的每一天，都是爱你的一天",
+            "想你了，不止今天，是朝朝暮暮",
+            "总盼着你被世界温柔以待，如今你在云端安好",
+            "生活曾有艰苦，但有你在，便满是甘甜",
+            "愿你在另一个世界，永远开心，天天快乐",
+            "愿你永远笑得灿烂，一如我们初见时的模样",
+            "我在原地等你，等一场跨越时空的重逢",
+            "遇见你，是我此生最大的幸运，从未后悔",
+            "亲爱的，记得保持好心情，我会为你祈祷",
+            "替我好好爱自己，在那没有烦恼的天堂",
+            "我会永远爱你，这份爱，跨越生死，永不褪色"
+        ];
+
+        // 当前显示的消息索引
+        let currentIndex = 0;
+        let isPlaying = true;
+        let playInterval;
+
+        // DOM元素
+        const messageContainer = document.getElementById('messageContainer');
+        const petalsContainer = document.getElementById('petalsContainer');
+        const prevBtn = document.getElementById('prevBtn');
+        const playBtn = document.getElementById('playBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // 初始化消息元素
+        function initMessages() {
+            messages.forEach((msg, index) => {
+                const messageElement = document.createElement('div');
+                messageElement.className = `message ${index === 0 ? 'active' : ''}`;
+                messageElement.textContent = msg;
+                messageElement.dataset.index = index;
+                messageContainer.appendChild(messageElement);
+            });
+        }
+
+        // 显示指定索引的消息
+        function showMessage(index) {
+            // 隐藏当前消息
+            const currentMessage = document.querySelector(`.message[data-index="${currentIndex}"]`);
+            if (currentMessage) {
+                currentMessage.classList.remove('active');
+            }
+
+            // 更新索引
+            currentIndex = (index + messages.length) % messages.length;
+
+            // 显示新消息
+            const newMessage = document.querySelector(`.message[data-index="${currentIndex}"]`);
+            if (newMessage) {
+                newMessage.classList.add('active');
+            }
+
+            // 创建花瓣效果（替换爱心，更显温柔怀念）
+            createPetals();
+        }
+
+        // 创建花瓣动画（使用温柔的符号）
+        function createPetals() {
+            const petalSymbols = ['❀', '✿', '❁', '🌸', '💐'];
+            const petalCount = Math.floor(Math.random() * 8) + 4;
+
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                // 随机选择花瓣符号
+                petal.textContent = petalSymbols[Math.floor(Math.random() * petalSymbols.length)];
+
+                // 随机位置和动画参数
+                const size = Math.random() * 8 + 12;
+                const left = Math.random() * 100;
+                const animationDuration = Math.random() * 5 + 4; // 更慢的飘落速度
+                const opacity = Math.random() * 0.3 + 0.4; // 更淡的透明度
+
+                petal.style.left = `${left}%`;
+                petal.style.fontSize = `${size}px`;
+                petal.style.animationDuration = `${animationDuration}s`;
+                petal.style.animationDelay = `${Math.random() * 3}s`;
+                petal.style.opacity = opacity;
+
+                petalsContainer.appendChild(petal);
+
+                // 移除花瓣元素
+                setTimeout(() => {
+                    petal.remove();
+                }, animationDuration * 1000);
+            }
+        }
+
+        // 播放/暂停自动播放
+        function togglePlay() {
+            isPlaying = !isPlaying;
+
+            if (isPlaying) {
+                //  slower interval for memory feeling
+                playInterval = setInterval(() => {
+                    showMessage(currentIndex + 1);
+                }, 5000);
+                playBtn.textContent = '暂停';
+            } else {
+                clearInterval(playInterval);
+                playBtn.textContent = '播放';
+            }
+        }
+
+        // 事件监听
+        prevBtn.addEventListener('click', () => {
+            showMessage(currentIndex - 1);
+            if (isPlaying) {
+                clearInterval(playInterval);
+                playInterval = setInterval(() => {
+                    showMessage(currentIndex + 1);
+                }, 5000);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            showMessage(currentIndex + 1);
+            if (isPlaying) {
+                clearInterval(playInterval);
+                playInterval = setInterval(() => {
+                    showMessage(currentIndex + 1);
+                }, 5000);
+            }
+        });
+
+        playBtn.addEventListener('click', togglePlay);
+
+        // 初始化
+        initMessages();
+
+        // 开始自动播放（ slower speed for recollection ）
+        playInterval = setInterval(() => {
+            showMessage(currentIndex + 1);
+        }, 5000);
+
+        // 页面加载时创建一些初始花瓣
+        window.addEventListener('load', () => {
+            createPetals();
+        });
+    </script>
+</body>
+</html>
